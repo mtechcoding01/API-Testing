@@ -1,0 +1,217 @@
+1. Setup & API Explore
+
+http://localhost:8080/swagger-ui.html
+
+Open Postman and create a new Environment (e.g., Local) with variables: 
+baseUrl = http://localhost:8080/api/student
+
+
+2. Basic smoke tests (sanity)
+
+For each endpoint, make at least one successful call to ensure the server responds.
+
+i>    POST /add → create a student. Expect HTTP 201 or 200 and response body with student id.
+
+ii>   GET /{id} → retrieve created student. Expect 200 and correct data.
+
+iii>  PUT /update/{id} → update some field. Expect 200 and updated fields.
+
+iv>   DELETE /soft/{id} → expect 200 and "Soft Deleted" message.
+
+v>    DELETE /hard/{id} → expect 200 and "Hard Deleted".
+
+vi>   PUT /restore/{id} → expect 200 and "Restored".
+
+vii>  GET /list → expect 200, list of students with pagination.
+
+viii> GET /deleted → expect 200, list of soft-deleted students.
+
+
+
+3. Endpoint-by-endpoint test cases (examples)
+
+Each endpoint: Positive case, Negative case(s), Validation case, Edge case.
+
+POST /add
+
+Positive: valid JSON → expect 200/201, id returned, response status == "SUCCESS".
+Sample body
+
+{
+  "name": "Amit Kumar",
+  "age": 18,
+  "city": "Patna",
+  "email": "amit@example.com"
+}
+
+
+Negative: missing required field (e.g., name) → expect 400 Bad Request and validation message.
+
+Duplicate or invalid types → proper error.
+
+
+
+
+
+GET /{id}
+
+Positive: existing id → 200, correct student data.
+
+Negative: non-existing id → 404 or appropriate error.
+
+Invalid id format (string) → 400.
+
+
+
+
+PUT /update/{id}
+
+Positive: update city → 200, updated city value.
+
+Negative: update soft-deleted id → behavior: either error or not found. Test and document.
+
+
+
+
+DELETE /soft/{id} and DELETE /hard/{id}
+
+Soft delete: verify GET /{id} still returns what? (define expected: maybe marked deleted or not). Verify GET /deleted includes the student.
+
+Hard delete: verify GET /{id} returns 404.
+
+
+
+PUT /restore/{id}
+
+Restore a soft-deleted student → verify student reappears in /list and removed from /deleted.
+
+
+
+GET /list (filters, sort, pagination)
+
+Test ?page=0&size=5 returns correct number of items.
+
+Test ?sortBy=name order.
+
+Test filter ?city=Patna and ?age=18.
+
+Combine filters & pagination.
+
+
+
+POST /seed
+
+Call POST /seed?count=10 → expect added students count matches added.size().
+
+
+
+4. Automated assertions in Postman.
+
+Add tests in Postman Tests tab (JavaScript):
+
+
+pm.test("Status is 200", function () {
+  pm.response.to.have.status(200);
+});
+
+pm.test("Response has SUCCESS status", function () {
+  var json = pm.response.json();
+  pm.expect(json.status).to.eql("SUCCESS");
+});
+
+pm.test("Response has timestamp and data", function () {
+  var json = pm.response.json();
+  pm.expect(json).to.have.property("timestamp");
+  pm.expect(json).to.have.property("data");
+});
+
+
+Check created ID
+
+var json = pm.response.json();
+pm.test("ID present", function () {
+  pm.expect(json.data.id).to.be.a("number");
+  pm.environment.set("createdId", json.data.id);
+});
+
+
+Check pagination size
+
+var json = pm.response.json();
+pm.test("Returned list size <= page size", () => {
+  pm.expect(json.data.length).to.be.at.most(5);
+});
+
+
+
+5. Negative / validation / security tests
+
+Send invalid JSON body → server should return 400 with clear validation errors.
+
+Missing required headers (if any) → verify error.
+
+Large payload size → check behavior.
+
+SQL injection strings in fields → ensure sanitized or properly handled.
+
+Unauthorized access (if auth exists) → 401.
+
+
+
+
+
+6. Data lifecycle & state checks
+
+After creating student A, create B, soft-delete A, verify counts in /list vs /deleted.
+
+Restore A, then hard-delete A, then verify GET /{id} returns 404.
+
+
+
+
+7. Collection runner & data-driven tests
+
+Create a Postman Collection with requests and tests.
+
+Use Collection Runner with a CSV to create multiple students (use name,age,city).
+
+Verify results and export test run report.
+
+
+
+
+8. Automation & CI
+
+Export Postman collection and environment.
+
+Use Newman to run tests in terminal:
+newman run StudentAPI.postman_collection.json -e Local.postman_environment.json
+
+Integrate Newman run into CI (GitHub Actions / Jenkins) to run on each build.
+
+
+
+9. Reporting & bug reporting
+
+For each failing test, capture: request, response, time, server logs (if available).
+
+Create bug tickets with exact steps to reproduce, payloads, expected vs actual.
+
+
+
+
+10. Quick test case matrix (compact)
+
+Create (POST) — Positive, Missing field, Invalid type
+
+Read (GET) — Found, Not found, Invalid id
+
+Update (PUT) — Success, Update deleted, Invalid payload
+
+Soft Delete — Verify in /deleted
+
+Hard Delete — Verify removed from DB / 404
+
+Restore — Verify moves from /deleted to /list
+
+List — Paging, Sorting, Filtering
