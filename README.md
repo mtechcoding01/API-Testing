@@ -50,7 +50,7 @@ Once the project is running, open:
 ### 1. Install JDK 21 or later  
 ### 2. Clone the repository:
 
-[git clone https://github.com/your-username/mtech-coding-api.git](https://github.com/mtechcoding01/MTech-Coding-API-Testing.git)
+https://github.com/mtechcoding01/API-Testing.git
 
 ### 3. Run the project:
 java -jar mtech-coding-api-0.0.1-SNAPSHOT.jar
