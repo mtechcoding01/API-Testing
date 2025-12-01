@@ -48,15 +48,14 @@ Once the project is running, open:
 ## ▶️ How to Run the Project
 
 ### 1. Install JDK 21 or later  
-### 2. Install Maven  
-### 3. Clone the repository:
+### 2. Clone the repository:
 
 [git clone https://github.com/your-username/mtech-coding-api.git](https://github.com/mtechcoding01/MTech-Coding-API-Testing.git)
 
-### 4. Run the project:
-mvn spring-boot:run
+### 3. Run the project:
+java -jar mtech-coding-api-0.0.1-SNAPSHOT.jar
 
-### 5. Open Swagger UI:
+### 4. Open Swagger UI:
 http://localhost:8080/mtech-api
 
 ## 🎯 Purpose of This Project
