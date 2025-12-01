@@ -51,7 +51,7 @@ Once the project is running, open:
 ### 2. Install Maven  
 ### 3. Clone the repository:
 
-git clone https://github.com/your-username/mtech-coding-api.git
+[git clone https://github.com/your-username/mtech-coding-api.git](https://github.com/mtechcoding01/MTech-Coding-API-Testing.git)
 
 ### 4. Run the project:
 mvn spring-boot:run
