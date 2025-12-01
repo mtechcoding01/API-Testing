@@ -48,14 +48,15 @@ Once the project is running, open:
 ## ▶️ How to Run the Project
 
 ### 1. Install JDK 21 or later  
-### 2. Clone the repository:
+### 2. Install Postman
+### 3. Clone the repository:
 
 https://github.com/mtechcoding01/API-Testing.git
 
-### 3. Run the project:
+### 4. Run the project:
 java -jar mtech-coding-api-0.0.1-SNAPSHOT.jar
 
-### 4. Open Swagger UI:
+### 5. Open Swagger UI:
 http://localhost:8080/mtech-api
 
 ## 🎯 Purpose of This Project
