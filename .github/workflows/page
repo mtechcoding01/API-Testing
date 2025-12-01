@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MTech Coding API Documentation</title>
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; color:#212529; }
+  h1, h2, h3, h4 { color: #1a73e8; }
+  .card { border-radius: 12px; margin-bottom: 20px; }
+  pre { background: #f1f3f5; padding: 12px; border-radius: 8px; position: relative; font-size:14px; }
+  .copy-btn { position: absolute; top: 8px; right: 8px; font-size:12px; padding:3px 8px; cursor:pointer; }
+  .endpoint-badge { font-size:14px; padding:4px 8px; border-radius:6px; color:#fff; margin-right:6px; font-weight:600; }
+  .get { background:#1e88e5; }
+  .post { background:#43a047; }
+  .put { background:#fb8c00; }
+  .delete { background:#e53935; }
+  .badge-custom { background:#21262d; color:#9aa4b2; padding:5px 10px; border-radius:6px; }
+  .section-title { font-weight:600; margin-top:20px; color:#1a73e8; }
+</style>
+
+<script>
+function copyCode(btn) {
+  const code = btn.parentElement.querySelector('code').innerText;
+  navigator.clipboard.writeText(code);
+  btn.innerText = 'Copied!';
+  setTimeout(()=>btn.innerText='Copy', 1200);
+}
+</script>
+</head>
+
+<body class="container py-4">
+
+<!-- HEADER -->
+<div class="d-flex align-items-center mb-4">
+  <div class="p-3 rounded" style="background:linear-gradient(135deg,#4f46e5,#06b6d4); font-weight:700;">MC</div>
+  <div class="ms-3">
+    <h1 class="m-0">🚀 MTech Coding — Student API Documentation</h1>
+    <small class="text-muted">Clean & Professional • Developer Friendly • Bootstrap</small>
+  </div>
+</div>
+
+
+<!-- How to Run the Project -->
+<div class="card p-3 mb-4">
+  <h2 class="fw-bold">▶️ How to Run the Project</h2>
+
+  <h5 class="mt-3">1. Install JDK 21 or later</h5>
+  <p>
+    Download and install Java JDK 21 or higher: 
+    <a href="https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html" target="_blank" class="btn btn-sm btn-success">Download JDK 21</a>
+  </p>
+
+  <h5 class="mt-3">2. Install Postman</h5>
+  <p>
+    Download and install Postman: 
+    <a href="https://www.postman.com/downloads/" target="_blank" class="btn btn-sm btn-primary">Download Postman</a>
+  </p>
+
+  <h5 class="mt-3">3. Clone the repository</h5>
+  <p>
+    GitHub repository: 
+    <a href="https://github.com/mtechcoding01/API-Testing.git" target="_blank" class="btn btn-sm btn-dark">Open Repository</a>
+  </p>
+  <pre><code>git clone https://github.com/mtechcoding01/API-Testing.git</code></pre>
+
+  <h5 class="mt-3">4. Run the project</h5>
+  <pre><code>java -jar mtech-coding-api-0.0.1-SNAPSHOT.jar</code></pre>
+
+  <h5 class="mt-3">5. Open Swagger UI</h5>
+  <p>
+    <a href="http://localhost:8080/mtech-api" target="_blank" class="btn btn-sm btn-warning">Open Swagger UI</a>
+  </p>
+</div>
+
+
+
+
+<!-- BASE URL -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">🌐 Base URL</span>
+  <pre><button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button><code>http://localhost:8080/api/student</code></pre>
+</div>
+
+<!-- swagger URL -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">🌐 Swagger URL</span>
+  <pre style="display:flex; align-items:center; gap:10px;">
+    <button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button>
+    <a href="http://localhost:8080/mtech-api" target="_blank" class="btn btn-primary btn-sm">Click Here</a>
+    <code style="margin-left:10px; flex:1;">
+      http://localhost:8080/mtech-api
+    </code>
+  </pre>
+</div>
+
+
+<!-- RESPONSE FORMAT -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">📌 Standard Response Format</span>
+  <pre><button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button><code>{
+  "status": "SUCCESS | FAIL | ERROR",
+  "message": "Readable message",
+  "timestamp": "2025-12-01T00:00:00",
+  "data": {}
+}</code></pre>
+</div>
+
+<!-- STUDENT MODEL -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">🎓 Student Model</span>
+  <div class="table-responsive">
+    <table class="table table-striped table-light">
+      <thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Validation</th></tr></thead>
+      <tbody>
+        <tr><td>id</td><td>Integer</td><td>Yes</td><td>>= 1</td></tr>
+        <tr><td>name</td><td>String</td><td>Yes</td><td>3–30 chars</td></tr>
+        <tr><td>age</td><td>Integer</td><td>Yes</td><td>5–100</td></tr>
+        <tr><td>email</td><td>String</td><td>Yes</td><td>Valid + unique</td></tr>
+        <tr><td>city</td><td>String</td><td>Yes</td><td>Non-empty</td></tr>
+        <tr><td>deleted</td><td>Boolean</td><td>No</td><td>Default: false</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <pre><button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button><code>{
+  "id": 101,
+  "name": "Amit Kumar",
+  "age": 25,
+  "email": "amit@example.com",
+  "city": "Patna",
+  "deleted": false
+}</code></pre>
+</div>
+
+<!-- ENDPOINTS -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">📚 API Endpoints</span>
+  <div class="row g-3">
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge post">POST</span> <strong>/api/student/add</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge get">GET</span> <strong>/api/student/{id}</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge put">PUT</span> <strong>/api/student/update/{id}</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge delete">DELETE</span> <strong>/api/student/soft/{id}</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge delete">DELETE</span> <strong>/api/student/hard/{id}</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge put">PUT</span> <strong>/api/student/restore/{id}</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge get">GET</span> <strong>/api/student/list</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge get">GET</span> <strong>/api/student/deleted</strong></div></div>
+    <div class="col-md-4"><div class="p-3 bg-light rounded border"><span class="badge post">POST</span> <strong>/api/student/seed</strong></div></div>
+  </div>
+</div>
+
+<!-- TEST CASES -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">🧪 Endpoint-by-Endpoint Test Cases</span>
+  <h5 class="mt-3"><span class="endpoint-badge post">POST</span> /api/student/add</h5>
+  <pre><button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button><code>{
+  "name": "Amit Kumar",
+  "age": 18,
+  "city": "Patna",
+  "email": "amit@example.com"
+}</code></pre>
+  <ul>
+    <li>Positive: Valid JSON → 200/201 SUCCESS</li>
+    <li>Negative: Missing name → 400 Validation Error</li>
+    <li>Negative: Invalid email → 400</li>
+    <li>Negative: Duplicate email → FAIL</li>
+  </ul>
+
+  <h5 class="mt-3"><span class="endpoint-badge get">GET</span> /api/student/{id}</h5>
+  <ul>
+    <li>Positive: Existing id → 200</li>
+    <li>Negative: Non-existing id → 404</li>
+    <li>Invalid: String id → 400</li>
+  </ul>
+
+  <h5 class="mt-3"><span class="endpoint-badge put">PUT</span> /api/student/update/{id}</h5>
+  <ul>
+    <li>Positive: update city → SUCCESS</li>
+    <li>Negative: updating soft-deleted → Not found</li>
+  </ul>
+
+  <h5 class="mt-3"><span class="endpoint-badge delete">DELETE</span> /api/student/soft/{id}</h5>
+  <ul>
+    <li>After soft-delete, GET /list → hidden, GET /deleted → visible</li>
+  </ul>
+
+  <h5 class="mt-3"><span class="endpoint-badge delete">DELETE</span> /api/student/hard/{id}</h5>
+  <ul>
+    <li>After hard-delete, GET /{id} → 404</li>
+  </ul>
+
+  <h5 class="mt-3"><span class="endpoint-badge put">PUT</span> /api/student/restore/{id}</h5>
+  <ul>
+    <li>Soft-deleted → restored back to list</li>
+    <li>Removed from deleted list</li>
+  </ul>
+</div>
+
+<!-- POSTMAN SCRIPTS -->
+<div class="card p-3">
+  <span class="badge badge-custom mb-2">🤖 Postman Automated Scripts</span>
+  <pre><button class="btn btn-secondary btn-sm copy-btn" onclick="copyCode(this)">Copy</button><code>pm.test("Status 200", () => pm.response.to.have.status(200));
+pm.test("SUCCESS Status", () => pm.expect(pm.response.json().status).to.eql("SUCCESS"));
+pm.test("Timestamp & Data exist", () => {
+  const json = pm.response.json();
+  pm.expect(json).to.have.property("timestamp");
+  pm.expect(json).to.have.property("data");
+});</code></pre>
+</div>
+
+<!-- API TESTING CONCEPTS -->
+<section class="container my-5 p-4 bg-white rounded shadow-sm">
+  <h2 class="fw-bold mb-3">API Testing – Complete Concepts</h2>
+  
+  <h4 class="section-title">1️⃣ What is an API?</h4>
+  <p>An API (Application Programming Interface) allows two systems to communicate. It defines methods, parameters, and response formats.</p>
+
+  <h4 class="section-title">2️⃣ Types of API Testing</h4>
+  <ul>
+    <li>Functional Testing – Verify API functionality</li>
+    <li>Positive/Negative Testing – Valid & invalid inputs</li>
+    <li>Load & Performance Testing – Stress & speed</li>
+    <li>Security Testing – Auth, encryption, access control</li>
+    <li>Validation Testing – Response structure & data</li>
+  </ul>
+
+  <h4 class="section-title">3️⃣ Common HTTP Methods</h4>
+  <ul>
+    <li>GET → Fetch data</li>
+    <li>POST → Create data</li>
+    <li>PUT → Update existing data</li>
+    <li>DELETE → Remove data</li>
+  </ul>
+
+  <h4 class="section-title">4️⃣ API Response Codes</h4>
+  <ul>
+    <li>200 OK – Success</li>
+    <li>201 Created – Resource created</li>
+    <li>400 Bad Request – Validation error / wrong input</li>
+    <li>401 Unauthorized – Auth failed</li>
+    <li>404 Not Found – Resource missing</li>
+    <li>500 Internal Server Error</li>
+  </ul>
+
+  <h4 class="section-title">5️⃣ What to Test in an API?</h4>
+  <ul>
+    <li>URL correctness & endpoints</li>
+    <li>Headers, Auth tokens, Content-Type</li>
+    <li>Request body validation</li>
+    <li>Response structure & time</li>
+    <li>Error messages & codes</li>
+  </ul>
+
+  <h4 class="section-title">6️⃣ Tools for API Testing</h4>
+  <ul>
+    <li>Postman – Manual & automated testing</li>
+    <li>Swagger – API docs & try-out</li>
+    <li>Rest Assured – Java-based automation</li>
+    <li>JMeter – Load & performance</li>
+    <li>Newman – CLI execution for Postman collections</li>
+  </ul>
+
+  <h4 class="section-title">7️⃣ JSON Structure Example</h4>
+  <pre class="p-2 bg-light rounded"><code>{
+  "id": 1,
+  "name": "Mithilesh Kumar",
+  "course": "BCA",
+  "status": "Active"
+}</code></pre>
+
+  <h4 class="section-title">8️⃣ API Testing Checklist</h4>
+  <ul>
+    <li>✔ URL reachable</li>
+    <li>✔ Correct status codes</li>
+    <li>✔ Mandatory fields validated</li>
+    <li>✔ Error handling correct</li>
+    <li>✔ Auth token required or not</li>
+    <li>✔ Database updates verified</li>
+  </ul>
+
+  <h4 class="section-title">9️⃣ Automated Assertions in Postman</h4>
+  <pre class="p-2 bg-light rounded"><code>// Status code check
+pm.test("Status code is 200", () => { pm.response.to.have.status(200); });
+
+// Validate JSON fields
+pm.test("Response has id & name", () => {
+  const json = pm.response.json();
+  pm.expect(json.id).to.exist;
+  pm.expect(json.name).to.exist;
+});
+
+// Response time check
+pm.test("Response time < 500ms", () => {
+  pm.expect(pm.response.responseTime).to.be.below(500);
+});
+</code></pre>
+
+  <h4 class="section-title">🔟 Endpoint-Specific Scripts</h4>
+  <p>Use these inside Postman <b>Tests</b> tab:</p>
+  <ul>
+    <li>POST /add – Check 200/201 & validate created student</li>
+    <li>GET /{id} – Validate fields exist</li>
+    <li>PUT /update/{id} – Verify updated values</li>
+    <li>DELETE soft/hard – Verify removal & messages</li>
+    <li>GET /list – Check array & pagination</li>
+    <li>PUT /restore/{id} – Verify restore success</li>
+  </ul>
+</section>
+
+</body>
+</html>
